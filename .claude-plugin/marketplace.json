@@ -1,0 +1,22 @@
+{
+  "name": "debate",
+  "description": "Structured multi-round debate between AI tools with proposer/challenger roles and verdict",
+  "version": "1.0.0",
+  "owner": {
+    "name": "Avi Fenesh",
+    "url": "https://github.com/avifenesh"
+  },
+  "repository": "https://github.com/agent-sh/debate",
+  "keywords": [
+    "debate"
+  ],
+  "plugins": [
+    {
+      "name": "debate",
+      "source": ".",
+      "description": "Structured multi-round debate between AI tools with proposer/challenger roles and verdict",
+      "version": "1.0.0",
+      "category": "productivity"
+    }
+  ]
+}

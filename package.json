@@ -1,0 +1,24 @@
+{
+  "name": "@agentsys/debate",
+  "version": "1.0.0",
+  "description": "Structured multi-round debate between AI tools with proposer/challenger roles and verdict",
+  "author": {
+    "name": "Avi Fenesh",
+    "email": "[email protected]",
+    "url": "https://github.com/avifenesh"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agent-sh/debate.git"
+  },
+  "homepage": "https://github.com/agent-sh/debate",
+  "keywords": [
+    "debate",
+    "dialectic",
+    "cross-tool",
+    "multi-model",
+    "adversarial",
+    "second-opinion"
+  ]
+}
