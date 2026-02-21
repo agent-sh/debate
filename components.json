@@ -1,0 +1,11 @@
+{
+  "agents": [
+    "debate-orchestrator"
+  ],
+  "skills": [
+    "debate"
+  ],
+  "commands": [
+    "debate"
+  ]
+}
