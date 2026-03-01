@@ -251,7 +251,10 @@ Platform state directory:
 | Challenger fails round 1 | Show proposer's position with note: "[WARN] Challenger failed. Showing proposer's uncontested position." |
 | Any tool fails mid-debate | Synthesize from completed rounds. Note incomplete round in output. |
 | Tool invocation timeout (>240s) | Round 1 proposer: abort. Round 1 challenger: proceed with uncontested. Round 2+: synthesize from completed rounds with timeout note. |
+| Consult result envelope indicates failure (status/exit/error/empty output) | Treat as tool failure for that role/round and apply the same role+round policy above. |
+| Structured parse fails after successful envelope | Treat as tool failure for that role/round, include only sanitized parse metadata (`PARSE_ERROR:<type>:<code>`, redact secrets, strip control chars, max 200 chars), then apply the same role+round policy above. |
 | All rounds timeout | "[ERROR] Debate failed: all tool invocations timed out." |
+| No successful exchanges recorded (non-timeout) | "[ERROR] Debate failed: no successful exchanges were recorded." |
 
 ## External Tool Quick Reference
 
@@ -285,3 +288,8 @@ Platform state directory:
 | Codex | `JSON.parse(stdout).message` or raw text |
 | OpenCode | Parse JSON events, extract final text block |
 | Copilot | Raw stdout text |
+
+Parse discipline:
+1. Evaluate execution status first (timeout/non-zero/error/empty output) before any parsing.
+2. Parse only when execution status is successful.
+3. If parse fails, surface only sanitized parse metadata (never raw stdout/stderr snippets) and apply role/round failure policy instead of hanging or continuing silently.
