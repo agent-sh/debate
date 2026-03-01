@@ -79,18 +79,27 @@ For context assembly:
 
 Only include `--model=[model_proposer]` if the caller provided a specific model. If model is "omit", empty, or "auto", do NOT pass --model to the consult skill.
 
+Display this progress line before invocation:
+`[INFO] Running round {round} proposer ({proposer}) - timeout 240s`
+
 ```
 Skill: consult
 Args: "{proposer_prompt}" --tool=[proposer] --effort=[effort] [--model=[model_proposer]] [--context=[context]]
 ```
 
-Track invocation start time. If the invocation takes longer than 240 seconds to complete, treat it as a tool failure for this round (external tools can hang indefinitely).
+Track invocation start time and enforce a hard 240-second timeout via an execution mechanism that can cancel/kill the underlying command. If the invocation takes longer than 240 seconds, treat it as a tool failure for this round (external tools can hang indefinitely).
 
 > For planning reference on command patterns, model mappings, and output parsing per provider, see the debate skill's **External Tool Quick Reference** section. Always invoke via `Skill: consult` — never construct commands directly.
 
-Parse the JSON result. Extract the response text. Record: round, role="proposer", tool, response, duration_ms.
+Failure handling order (MUST follow this order):
+1. Check the consult result envelope first (status/exit/error/timed_out)
+2. If timed out, failed, or empty output: treat as proposer failure immediately
+3. Only after a successful envelope, parse structured output
+4. If structured parse fails, treat it as proposer failure and include only sanitized parse metadata in `{error}` using `PARSE_ERROR:<type>:<code>` (redact secrets, strip control characters, max 200 chars - never raw stdout/stderr snippets)
 
-Display to user immediately:
+After successful parsing, extract the response text. Record: round, role="proposer", tool, response, duration_ms.
+
+Display to user immediately ONLY after the proposer call is confirmed successful:
 ```
 --- Round {round}: {proposer_tool} (Proposer) ---
 
@@ -110,18 +119,27 @@ If the proposer fails on round 2+, synthesize from completed rounds (skip to Ste
 
 Only include `--model=[model_challenger]` if the caller provided a specific model. If model is "omit", empty, or "auto", do NOT pass --model to the consult skill.
 
+Display this progress line before invocation:
+`[INFO] Running round {round} challenger ({challenger}) - timeout 240s`
+
 ```
 Skill: consult
 Args: "{challenger_prompt}" --tool=[challenger] --effort=[effort] [--model=[model_challenger]] [--context=[context]]
 ```
 
-Track invocation start time. If the invocation takes longer than 240 seconds to complete, treat it as a tool failure for this round (external tools can hang indefinitely).
+Track invocation start time and enforce a hard 240-second timeout via an execution mechanism that can cancel/kill the underlying command. If the invocation takes longer than 240 seconds, treat it as a tool failure for this round (external tools can hang indefinitely).
 
 > For planning reference on command patterns, model mappings, and output parsing per provider, see the debate skill's **External Tool Quick Reference** section. Always invoke via `Skill: consult` — never construct commands directly.
 
-Parse the JSON result. Record: round, role="challenger", tool, response, duration_ms.
+Failure handling order (MUST follow this order):
+1. Check the consult result envelope first (status/exit/error/timed_out)
+2. If timed out, failed, or empty output: treat as challenger failure immediately
+3. Only after a successful envelope, parse structured output
+4. If structured parse fails, treat it as challenger failure and include only sanitized parse metadata in `{error}` using `PARSE_ERROR:<type>:<code>` (redact secrets, strip control characters, max 200 chars - never raw stdout/stderr snippets)
 
-Display to user immediately:
+After successful parsing, record: round, role="challenger", tool, response, duration_ms.
+
+Display to user immediately ONLY after the challenger call is confirmed successful:
 ```
 --- Round {round}: {challenger_tool} (Challenger) ---
 
@@ -135,6 +153,12 @@ If the challenger fails on round 2+, synthesize from completed rounds.
 ### 4. Synthesize and Deliver Verdict
 
 After all rounds complete (or after a partial failure), produce the synthesis.
+
+If all invocations timed out, return:
+`[ERROR] Debate failed: all tool invocations timed out.`
+
+If there were no successful exchanges for non-timeout reasons, return:
+`[ERROR] Debate failed: no successful exchanges were recorded.`
 
 You are the JUDGE. Read all exchanges carefully. Use the synthesis format from the debate skill. Your verdict:
 

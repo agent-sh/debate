@@ -12,6 +12,10 @@
     "type": "git",
     "url": "https://github.com/agent-sh/debate.git"
   },
+  "scripts": {
+    "test": "node scripts/test-command-templates.js",
+    "validate": "node scripts/test-command-templates.js"
+  },
   "homepage": "https://github.com/agent-sh/debate",
   "keywords": [
     "debate",
