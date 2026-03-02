@@ -206,17 +206,17 @@ For each round (1 through N):
 - **Rounds 1-2**: Include full text of all prior exchanges per the skill's context format.
 - **Round 3+**: Summarize rounds 1 through {round}-2 (target 500-800 tokens, preserving core positions, key evidence, all concessions as verbatim quotes, points of disagreement, and any contradictions between rounds). Include only the most recent round's responses in full.
 
-**Invoke Proposer via Consult Skill:**
+**Invoke Proposer directly (do NOT use Skill: consult - it would recursively load the interactive wrapper):**
 
-Only include `--model=[model_proposer]` if the user provided a specific model. If model is "omit", empty, or "auto", do NOT pass --model to the consult skill.
+Only include `--model=[model_proposer]` if the user provided a specific model. If model is "omit", empty, or "auto", do NOT pass --model.
 
 Display this progress line before invocation:
 `[INFO] Running round {round} proposer ({proposer}) - timeout 240s`
 
-```
-Skill: consult
-Args: "{proposer_prompt}" --tool=[proposer] --effort=[effort] [--model=[model_proposer]] [--context=[context]]
-```
+1. Write the proposer prompt to `{AI_STATE_DIR}/consult/question.tmp` using the Write tool
+2. Execute the CLI command directly via Bash (see External Tool Quick Reference below for per-provider command patterns)
+3. For ACP providers (preferred): `node acp/run.js --provider="PROVIDER" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000 [--model="MODEL"] [--effort="EFFORT"]`
+4. For CLI providers: use the safe command pattern from the reference table
 
 Set a hard 240-second timeout on this invocation using an execution mechanism that can cancel/kill the underlying command. If it exceeds 240s, treat as a tool failure for this round and continue with the failure policy below.
 
@@ -243,17 +243,17 @@ Display to user immediately ONLY after the proposer call is confirmed successful
 - **Round 1**: Use the "Round 1: Challenger Response" template from the skill. Substitute {topic}, {proposer_tool}, {proposer_round1_response}.
 - **Round 2+**: Use the "Round 2+: Challenger Follow-up" template. Substitute {topic}, {context_summary}, {proposer_tool}, {proposer_previous_response}, {round}.
 
-**Invoke Challenger via Consult Skill:**
+**Invoke Challenger directly (do NOT use Skill: consult - it would recursively load the interactive wrapper):**
 
-Only include `--model=[model_challenger]` if the user provided a specific model. If model is "omit", empty, or "auto", do NOT pass --model to the consult skill.
+Only include `--model=[model_challenger]` if the user provided a specific model. If model is "omit", empty, or "auto", do NOT pass --model.
 
 Display this progress line before invocation:
 `[INFO] Running round {round} challenger ({challenger}) - timeout 240s`
 
-```
-Skill: consult
-Args: "{challenger_prompt}" --tool=[challenger] --effort=[effort] [--model=[model_challenger]] [--context=[context]]
-```
+1. Write the challenger prompt to `{AI_STATE_DIR}/consult/question.tmp` using the Write tool
+2. Execute the CLI command directly via Bash (see External Tool Quick Reference below for per-provider command patterns)
+3. For ACP providers (preferred): `node acp/run.js --provider="PROVIDER" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000 [--model="MODEL"] [--effort="EFFORT"]`
+4. For CLI providers: use the safe command pattern from the reference table
 
 Set a hard 240-second timeout on this invocation using an execution mechanism that can cancel/kill the underlying command. If it exceeds 240s, treat as a tool failure for this round and continue with the failure policy below.
 
