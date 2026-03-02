@@ -322,7 +322,7 @@ Read the consult skill file to get the exact patterns and replacements.
 
 ## External Tool Quick Reference
 
-> Canonical source: `plugins/consult/skills/consult/SKILL.md`. This table is for **planning reference only** -- always invoke via `Skill: consult`, which handles safe question passing, temp file creation, and cleanup. Do NOT execute these commands directly.
+> Canonical source: `plugins/consult/skills/consult/SKILL.md`. Build and execute CLI commands directly using these templates. Write the question to `{AI_STATE_DIR}/consult/question.tmp` first, then execute via Bash. Do NOT use `Skill: consult` - it loads the interactive command wrapper and causes a recursive loop.
 
 ### Safe Command Patterns
 

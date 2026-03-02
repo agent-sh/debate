@@ -296,7 +296,7 @@ Parse discipline:
 
 ### ACP Transport Commands
 
-> ACP is an alternative transport available when providers support it. The consult skill auto-selects ACP when available. These commands are for **planning reference only** - always invoke via `Skill: consult`.
+> ACP is an alternative transport available when providers support it. Build and execute CLI commands directly - do NOT use `Skill: consult` (recursive loop in Claude Code).
 
 | Provider | ACP Command Pattern |
 |----------|-------------------|
