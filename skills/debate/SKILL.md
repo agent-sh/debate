@@ -286,7 +286,7 @@ Platform state directory:
 | Claude | `JSON.parse(stdout).result` |
 | Gemini | `JSON.parse(stdout).response` |
 | Codex | `JSON.parse(stdout).message` or raw text |
-| OpenCode | Parse JSON events, extract final text block |
+| OpenCode | Newline-delimited JSON. Concatenate `part.text` from events where `type === "text"`. Session ID from `event.sessionID`. |
 | Copilot | Raw stdout text |
 
 Parse discipline:
