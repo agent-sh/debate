@@ -293,3 +293,24 @@ Parse discipline:
 1. Evaluate execution status first (timeout/non-zero/error/empty output) before any parsing.
 2. Parse only when execution status is successful.
 3. If parse fails, surface only sanitized parse metadata (never raw stdout/stderr snippets) and apply role/round failure policy instead of hanging or continuing silently.
+
+### ACP Transport Commands
+
+> ACP is an alternative transport available when providers support it. The consult skill auto-selects ACP when available. These commands are for **planning reference only** - always invoke via `Skill: consult`.
+
+| Provider | ACP Command Pattern |
+|----------|-------------------|
+| Claude | `node acp/run.js --provider="claude" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000 --model="MODEL"` |
+| Gemini | `node acp/run.js --provider="gemini" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000 --model="MODEL"` |
+| Codex | `node acp/run.js --provider="codex" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000 --model="MODEL"` |
+| OpenCode | `node acp/run.js --provider="opencode" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000 --model="MODEL"` |
+| Copilot | `node acp/run.js --provider="copilot" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000` |
+| Kiro | `node acp/run.js --provider="kiro" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000` |
+
+Note the 240000ms timeout (240s) for debate rounds vs 120000ms (120s) for consult.
+
+**Kiro**: ACP-only provider. No CLI mode. Available when `kiro-cli` is on PATH.
+
+### ACP Output Parsing
+
+ACP transport output is parsed identically to CLI transport - the ACP runner (`acp/run.js`) normalizes responses into the same JSON envelope format. The `transport` field in the envelope indicates `"acp"` or `"cli"`.

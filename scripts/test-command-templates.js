@@ -306,6 +306,78 @@ assertContains(
   failures
 );
 
+// --- ACP Transport assertions ---
+
+assertContains(
+  skill,
+  /### ACP Transport Commands/,
+  'skills/debate/SKILL.md must contain ACP Transport Commands section.',
+  failures
+);
+
+assertContains(
+  skill,
+  /node acp\/run\.js --provider="claude" --question-file="\{AI_STATE_DIR\}\/consult\/question\.tmp" --timeout=240000/,
+  'skills/debate/SKILL.md ACP Claude command must use 240s debate timeout.',
+  failures
+);
+
+assertContains(
+  skill,
+  /\| Kiro \| `node acp\/run\.js --provider="kiro"/,
+  'skills/debate/SKILL.md must include Kiro in ACP command table.',
+  failures
+);
+
+assertContains(
+  skill,
+  /Kiro.*ACP-only provider/,
+  'skills/debate/SKILL.md must note Kiro as ACP-only.',
+  failures
+);
+
+assertContains(
+  command,
+  /Bash\(node:\*\)/,
+  'commands/debate.md must allow Bash(node:*) for ACP runner.',
+  failures
+);
+
+assertContains(
+  command,
+  /gemini, codex, claude, opencode, copilot, kiro/,
+  'commands/debate.md must include kiro in tool allow-list.',
+  failures
+);
+
+assertContains(
+  command,
+  /node acp\/run\.js --detect --provider=/,
+  'commands/debate.md must include ACP detection commands.',
+  failures
+);
+
+assertContains(
+  agent,
+  /Bash\(node:\*\)/,
+  'agents/debate-orchestrator.md must allow Bash(node:*) for ACP runner.',
+  failures
+);
+
+assertContains(
+  agent,
+  /Bash\(kiro-cli:\*\)/,
+  'agents/debate-orchestrator.md must allow Bash(kiro-cli:*) for Kiro.',
+  failures
+);
+
+assertContains(
+  agent,
+  /claude, gemini, codex, opencode, copilot, kiro/,
+  'agents/debate-orchestrator.md must include kiro in tool names.',
+  failures
+);
+
 if (failures.length > 0) {
   console.error('[FAIL] Debate template regression checks failed:');
   for (const failure of failures) {

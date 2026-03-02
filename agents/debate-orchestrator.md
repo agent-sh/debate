@@ -8,6 +8,9 @@ tools:
   - Bash(codex:*)
   - Bash(opencode:*)
   - Bash(copilot:*)
+  - Bash(kiro-cli:*)
+  - Bash(node:*)
+  - Bash(npx:*)
   - Bash(git:*)
   - Bash(where.exe:*)
   - Bash(which:*)
@@ -36,7 +39,7 @@ Extract from prompt (ALL pre-resolved by the caller):
 
 **Required:**
 - **topic**: The debate question
-- **proposer**: Tool name for the proposer role (claude, gemini, codex, opencode, copilot)
+- **proposer**: Tool name for the proposer role (claude, gemini, codex, opencode, copilot, kiro)
 - **challenger**: Tool name for the challenger role (must differ from proposer)
 - **effort**: Effort level for all tool invocations (low, medium, high, max)
 - **rounds**: Number of rounds (1-5)

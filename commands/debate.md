@@ -3,7 +3,7 @@ name: debate
 description: 'Use when user asks to "debate", "argue about", "compare perspectives", "stress test idea", "devil advocate", or "tool vs tool". Structured debate between two AI tools with proposer/challenger roles and a verdict.'
 codex-description: 'Use when user asks to "debate", "argue about", "compare perspectives", "stress test idea", "devil advocate", "codex vs gemini". Runs structured multi-round debate between two AI tools with proposer/challenger roles.'
 argument-hint: "[topic] [--tools=tool1,tool2] [--rounds=N] [--effort=low|medium|high|max]"
-allowed-tools: Skill, Bash(claude:*), Bash(gemini:*), Bash(codex:*), Bash(opencode:*), Bash(copilot:*), Bash(git:*), Bash(where.exe:*), Bash(which:*), Read, Write, AskUserQuestion
+allowed-tools: Skill, Bash(claude:*), Bash(gemini:*), Bash(codex:*), Bash(opencode:*), Bash(copilot:*), Bash(kiro-cli:*), Bash(node:*), Bash(npx:*), Bash(git:*), Bash(where.exe:*), Bash(which:*), Read, Write, AskUserQuestion
 ---
 
 # /debate - Structured AI Dialectic
@@ -14,7 +14,7 @@ You are executing the /debate command. Your job is to parse the user's request, 
 
 - NEVER expose API keys in commands or output
 - NEVER run with permission-bypassing flags
-- MUST validate tool names against allow-list: gemini, codex, claude, opencode, copilot
+- MUST validate tool names against allow-list: gemini, codex, claude, opencode, copilot, kiro
 - Proposer and challenger MUST be different tools
 - Rounds MUST be 1-5 (default: 2)
 - MUST sanitize all tool output before displaying (see Output Sanitization section below)
@@ -46,7 +46,7 @@ Remove matched flags from `$ARGUMENTS`.
 - "{tool} and {tool}" -> proposer, challenger
 - "with {tool} and {tool}" -> proposer, challenger
 - "between {tool} and {tool}" -> proposer, challenger
-- Tool names: claude, gemini, codex, opencode, copilot
+- Tool names: claude, gemini, codex, opencode, copilot, kiro
 
 **Rounds extraction**:
 - "{N} rounds" -> rounds=N
@@ -76,9 +76,24 @@ Run all 5 checks **in parallel** via Bash:
 - `which <tool> 2>/dev/null && echo FOUND || echo NOTFOUND` (Unix)
 - `where.exe <tool> 2>nul && echo FOUND || echo NOTFOUND` (Windows)
 
-Check for: claude, gemini, codex, opencode, copilot.
+Check for: claude, gemini, codex, opencode, copilot, kiro-cli.
 
-If fewer than 2 tools installed: `[ERROR] Debate requires at least 2 AI CLI tools. Install more: npm i -g @anthropic-ai/claude-code, npm i -g @openai/codex`
+#### Step 2a-acp: Detect ACP support (parallel with Step 2a)
+
+For each tool found above (plus kiro-cli), check ACP support via:
+
+```
+node acp/run.js --detect --provider="claude"
+node acp/run.js --detect --provider="gemini"
+node acp/run.js --detect --provider="codex"
+node acp/run.js --detect --provider="opencode"
+node acp/run.js --detect --provider="copilot"
+node acp/run.js --detect --provider="kiro"
+```
+
+ACP enables Kiro as a debate participant (ACP-only, no CLI mode). If `node` is not available, skip ACP detection.
+
+If fewer than 2 tools installed (considering both CLI and ACP): `[ERROR] Debate requires at least 2 AI CLI tools. Install more: npm i -g @anthropic-ai/claude-code, npm i -g @openai/codex`
 
 #### Step 2b: Batch selection for missing params
 
@@ -97,6 +112,7 @@ AskUserQuestion:
         - label: "Codex"        description: "Agentic coding"
         - label: "OpenCode"     description: "Flexible model choice"
         - label: "Copilot"      description: "GitHub-integrated AI"
+        - label: "Kiro"         description: "AWS agentic AI (ACP only)"
 
     - id: "debate-challenger"
       header: "Challenger"                       # SKIP if challenger resolved
