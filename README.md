@@ -9,7 +9,9 @@ Structured multi-round debate between AI tools with proposer/challenger roles an
 /plugin marketplace add agent-sh/debate
 
 # Or install from marketplace
-npm install -g agentsys && agentsys install debate
+# If agentsys is not installed yet:
+npm install -g agentsys
+agentsys install debate
 ```
 
 ## Usage
