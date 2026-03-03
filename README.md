@@ -4,11 +4,15 @@ Structured multi-round debate between AI tools with proposer/challenger roles an
 
 ## Installation
 
-```bash
-# Claude Code
-/plugin marketplace add agent-sh/debate
+**Claude Code** (run inside Claude Code):
 
-# Or install from marketplace
+```text
+/plugin marketplace add agent-sh/debate
+```
+
+**Or via npm** (run in your terminal):
+
+```bash
 # If agentsys is not installed yet:
 npm install -g agentsys
 agentsys install debate
