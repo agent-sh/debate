@@ -6,10 +6,10 @@ Structured multi-round debate between AI tools with proposer/challenger roles an
 
 ```bash
 # Claude Code
-claude mcp add-plugin agent-sh/debate
+/plugin marketplace add agent-sh/debate
 
 # Or install from marketplace
-agentsys install debate
+npm install -g agentsys && agentsys install debate
 ```
 
 ## Usage
