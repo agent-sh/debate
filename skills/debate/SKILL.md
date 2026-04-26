@@ -259,8 +259,10 @@ Platform state directory:
 ## External Tool Quick Reference
 
 > Canonical source: `plugins/consult/skills/consult/SKILL.md`. Build and execute CLI commands directly using these templates. Do NOT invoke via `Skill: consult` - in Claude Code that loads the interactive command wrapper and causes a recursive loop. Write the question to `{AI_STATE_DIR}/consult/question.tmp` first, then execute the command via Bash.
+>
+> **Prefer ACP transport when available.** Whenever a provider supports it, use the "ACP Transport Commands" pattern below instead of the raw CLI pattern. `acp/run.js` spawns providers via `spawn(..., { stdio: 'pipe', windowsHide: true })` and delivers the prompt over JSON-RPC stdin rather than argv, inheriting consult's spawn hardening and secret redaction. Debate passes user-supplied topic strings into tool invocations, so routing through ACP avoids argv-exposure of odd quoting or sensitive topics. Fall back to the raw CLI patterns only when ACP is not available for a provider.
 
-### Safe Command Patterns
+### Safe Command Patterns (fallback when ACP unavailable)
 
 | Provider | Safe Command Pattern |
 |----------|---------------------|
