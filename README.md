@@ -38,12 +38,14 @@ Requires at least two AI CLI tools installed. See [consult](https://github.com/a
 
 1. **Parse** - extracts topic, tools, rounds, and effort from natural language or flags
 2. **Detect** - scans PATH for installed AI CLI tools; requires at least two
-3. **Resolve** - if parameters are missing, presents an interactive picker (proposer, challenger, effort, rounds, context)
+3. **Resolve** - if parameters are missing, presents an interactive picker (proposer, challenger, effort, rounds, context). Harnesses without a question tool get defaults: the first two installed tools, high effort, 2 rounds, no context
 4. **Debate** - executes rounds sequentially. Each round:
    - The proposer argues for the topic (round 1) or defends against challenges (round 2+)
    - The challenger identifies flaws, missing considerations, and alternatives
    - Both must support claims with evidence; unsupported claims are flagged
-5. **Verdict** - the orchestrator (Opus) reads all exchanges and delivers a structured synthesis: winner, agreements, disagreements, unresolved questions, and an actionable recommendation
+5. **Verdict** - the judge (the session's model) reads all exchanges and delivers a structured synthesis: winner, agreements, disagreements, unresolved questions, and an actionable recommendation
+
+Each turn runs through the [consult](https://github.com/agent-sh/consult) plugin's ACP runner when it is installed (read-only tool permissions, prompt over stdin, secret redaction), otherwise through the tool's CLI with the prompt in a file, never on the command line.
 
 The challenger operates under adversarial rules - it must lead with what is wrong or missing before acknowledging agreements, and cannot agree with unsupported claims.
 
