@@ -15,6 +15,7 @@
 - The ACP path called `node acp/run.js`, relative to the user's repo. This plugin has no `acp/` directory; the runner is the consult plugin's. Turns now locate it next to this plugin and fall back to the CLI.
 - The command told the model never to use `Skill: consult`, while the agent told it always to. Both now run turns directly.
 - The Claude CLI template lacked `env -u CLAUDECODE`, so Claude turns failed from inside a Claude Code session. The Codex template lacked the trust-gated `{SKIP_GIT_FLAG}`.
+- The command and the agent loaded the debate skill with `Skill(debate)`, which resolves to the `/debate` command itself. Both now read the skill file; the agent no longer has the Skill tool.
 - Retired model ids (`gpt-5.3-codex`, `claude-opus-4-6`, `claude-sonnet-4-6`, `gemini-3-flash-preview`).
 
 

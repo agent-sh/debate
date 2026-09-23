@@ -69,6 +69,10 @@ for (const id of ['claude-haiku-4-5', 'claude-sonnet-5', 'claude-opus-5-5', 'cla
   has(tools, new RegExp(id.replace(/\./g, '\\.')), `references/tools.md model table must include ${id}.`);
 }
 
+// The skill shares its name with the command, so both read the file instead of Skill(debate).
+lacks(agent, /^\s+- Skill$/m, 'debate-orchestrator must not list the Skill tool.');
+lacks(command, /allowed-tools:.*\bSkill\b/, 'commands/debate.md must not rely on the Skill tool.');
+
 // The judge inherits the session model.
 lacks(agent, /^model:/m, 'debate-orchestrator must inherit the session model.');
 

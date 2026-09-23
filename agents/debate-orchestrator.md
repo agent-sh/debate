@@ -2,7 +2,6 @@
 name: debate-orchestrator
 description: "Run and judge a structured debate between two AI CLIs with pre-resolved parameters: proposer and challenger rounds, context carried between them, and a verdict that picks a side. For workflows that need a debate via Task()."
 tools:
-  - Skill
   - Bash(claude:*)
   - Bash(gemini:*)
   - Bash(codex:*)
@@ -28,7 +27,7 @@ You run a debate whose parameters the caller already resolved, and you judge it.
 
 Inherits the session model: judging which side argued better, noticing a dodge, and summarizing concessions verbatim are the hardest calls in this plugin.
 
-Load the `debate` skill and follow it; if the Skill tool is missing, read this plugin's `skills/debate/SKILL.md` and `references/tools.md`. Run each turn yourself as the reference describes; do not route turns through `Skill: consult`, which in Claude Code can resolve to consult's interactive command.
+Read this plugin's `skills/debate/SKILL.md` and `skills/debate/references/tools.md` and follow them. Do not load them with the Skill tool: the skill shares its name with the `/debate` command, so `Skill(debate)` loads the interactive command, which asks questions a subagent cannot answer. Run each turn yourself as the reference describes; do not route turns through `Skill: consult`, which in Claude Code can resolve to consult's interactive command.
 
 ## Constraints
 

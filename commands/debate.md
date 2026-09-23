@@ -3,7 +3,7 @@ name: debate
 description: 'Use when user asks to "debate", "argue about", "compare perspectives", "stress test idea", "devil advocate", or "tool vs tool". Structured debate between two AI tools with proposer/challenger roles and a verdict.'
 codex-description: 'Use when user asks to "debate", "argue about", "compare perspectives", "stress test idea", "devil advocate", "codex vs gemini". Runs structured multi-round debate between two AI tools with proposer/challenger roles.'
 argument-hint: "[topic] [--tools=tool1,tool2] [--rounds=N] [--effort=low|medium|high|max]"
-allowed-tools: Skill, Bash(claude:*), Bash(gemini:*), Bash(codex:*), Bash(opencode:*), Bash(copilot:*), Bash(kiro-cli:*), Bash(node:*), Bash(npx:*), Bash(git:*), Bash(where.exe:*), Bash(which:*), Bash(timeout:*), Bash(env:*), Bash(ls:*), Read, Write, Glob, AskUserQuestion
+allowed-tools: Bash(claude:*), Bash(gemini:*), Bash(codex:*), Bash(opencode:*), Bash(copilot:*), Bash(kiro-cli:*), Bash(node:*), Bash(npx:*), Bash(git:*), Bash(where.exe:*), Bash(which:*), Bash(timeout:*), Bash(env:*), Bash(ls:*), Read, Write, Glob, AskUserQuestion
 ---
 
 # /debate
@@ -34,7 +34,7 @@ Missing values, with AskUserQuestion in one call: proposer, challenger (installe
 
 ## Run
 
-Load the `debate` skill (or read `skills/debate/SKILL.md` and `references/tools.md` from this plugin) and follow it: rounds, progress lines, failure policy, context between rounds, verdict, state file. Run each turn yourself as the reference describes. Do not route turns through `Skill: consult`: in Claude Code that name also resolves to consult's interactive command.
+Read this plugin's `skills/debate/SKILL.md` and `skills/debate/references/tools.md` and follow them (not through the Skill tool: `Skill(debate)` resolves to this command): rounds, progress lines, failure policy, context between rounds, verdict, state file. Run each turn yourself as the reference describes. Do not route turns through `Skill: consult`: in Claude Code that name also resolves to consult's interactive command.
 
 ## Report
 
