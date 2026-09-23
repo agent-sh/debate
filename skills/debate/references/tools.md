@@ -8,16 +8,18 @@ Write the full prompt (template plus context, plus the `--context` material: `gi
 
 ## Transport
 
-Prefer ACP through the consult plugin's runner when it is installed: it spawns the tool with piped stdio, sends the prompt over JSON-RPC, allows the tool only read operations, and redacts secrets. In Claude Code the runner is at `${CLAUDE_PLUGIN_ROOT}/../../consult/<version>/acp/run.js` (the consult plugin next to this one); elsewhere, look for `consult/acp/run.js` in the harness's plugin directory. There is no `acp/` directory in this plugin or in the user's repo.
+Prefer ACP through the consult plugin's runner when it is installed: it spawns the tool with piped stdio, sends the prompt over JSON-RPC, allows the tool only read operations, and redacts secrets. The command resolves the runner and passes its path on: in Claude Code, `ls ${CLAUDE_PLUGIN_ROOT}/../../consult/*/acp/run.js` (the consult plugin next to this one; the variable expands in command text, not in this file). Otherwise Glob for `**/consult/*/acp/run.js` in the harness's plugin directory. There is no `acp/` directory in this plugin or in the user's repo.
 
 ```
 node <consult>/acp/run.js --detect --provider="claude"
-node <consult>/acp/run.js --provider="claude" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000 [--model="MODEL"]
+node <consult>/acp/run.js --provider="claude" --question-file="{AI_STATE_DIR}/consult/question.tmp" --timeout=240000 [--model="MODEL"] [--effort="EFFORT"]
 ```
 
 - Exit 0: JSON envelope on stdout, parse `response`.
 - Exit 1: failure for this role and round (JSON error on stderr).
 - Exit 3 (`model-unsupported` or `resume-unsupported`): ACP cannot run that model; the prompt file is kept, so run the CLI template instead.
+
+ACP carries the model but not reasoning depth: effort reaches Codex (`model_reasoning_effort`), Claude (`--max-turns`) and OpenCode (`--variant`, `--thinking`) only through the CLI templates. For Codex and OpenCode at any effort other than medium, use the CLI template so `--effort` does what the user asked.
 
 Kiro is ACP-only, so it can only debate when the runner is available. Without the runner, or without node, use the CLI templates.
 

@@ -28,13 +28,13 @@ Errors: no topic, `[ERROR] Usage: /debate "your topic" or /debate codex vs gemin
 
 ## Resolve
 
-Detect installed tools (`which`, or `where.exe` on Windows) and, if the consult plugin is installed, ACP support through its runner (see the skill's reference). Fewer than two usable tools: `[ERROR] Debate requires at least 2 AI CLI tools installed.` with install hints.
+Detect installed tools (`which`, or `where.exe` on Windows). Find consult's ACP runner with `ls ${CLAUDE_PLUGIN_ROOT}/../../consult/*/acp/run.js` (or Glob `**/consult/*/acp/run.js` in the plugin directory), pass that path to each turn, and check ACP support with it (see the skill's reference). No runner: CLI templates only. Fewer than two usable tools: `[ERROR] Debate requires at least 2 AI CLI tools installed.` with install hints.
 
 Missing values, with AskUserQuestion in one call: proposer, challenger (installed tools only, the proposer excluded), effort (high recommended), rounds (2 recommended), context (none recommended; for a file, ask the path and confine it to the project directory). Without AskUserQuestion: the first two installed tools in the order codex, gemini, claude, opencode, copilot, kiro, effort high, 2 rounds, no context.
 
 ## Run
 
-Read this plugin's `skills/debate/SKILL.md` and `skills/debate/references/tools.md` and follow them (not through the Skill tool: `Skill(debate)` resolves to this command): rounds, progress lines, failure policy, context between rounds, verdict, state file. Run each turn yourself as the reference describes. Do not route turns through `Skill: consult`: in Claude Code that name also resolves to consult's interactive command.
+Read `${CLAUDE_PLUGIN_ROOT}/skills/debate/SKILL.md` and `${CLAUDE_PLUGIN_ROOT}/skills/debate/references/tools.md` and follow them (not through the Skill tool: `Skill(debate)` resolves to this command): rounds, progress lines, failure policy, context between rounds, verdict, state file. Run each turn yourself as the reference describes. Do not route turns through `Skill: consult`: in Claude Code that name also resolves to consult's interactive command.
 
 ## Report
 

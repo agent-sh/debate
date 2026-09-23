@@ -16,6 +16,7 @@
 - The command told the model never to use `Skill: consult`, while the agent told it always to. Both now run turns directly.
 - The Claude CLI template lacked `env -u CLAUDECODE`, so Claude turns failed from inside a Claude Code session. The Codex template lacked the trust-gated `{SKIP_GIT_FLAG}`.
 - The command and the agent loaded the debate skill with `Skill(debate)`, which resolves to the `/debate` command itself. Both now read the skill file; the agent no longer has the Skill tool.
+- Skill files and the consult runner were named by paths relative to the user's repo. The command and the agent read `${CLAUDE_PLUGIN_ROOT}/skills/...`, and the command resolves the runner where the variable expands and passes it on. `--effort` is passed to the runner again, and Codex and OpenCode turns at non-medium effort use the CLI, the only path that carries reasoning depth. Found by revuto.
 - Retired model ids (`gpt-5.3-codex`, `claude-opus-4-6`, `claude-sonnet-4-6`, `gemini-3-flash-preview`).
 
 

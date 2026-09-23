@@ -27,7 +27,7 @@ You run a debate whose parameters the caller already resolved, and you judge it.
 
 Inherits the session model: judging which side argued better, noticing a dodge, and summarizing concessions verbatim are the hardest calls in this plugin.
 
-Read this plugin's `skills/debate/SKILL.md` and `skills/debate/references/tools.md` and follow them. Do not load them with the Skill tool: the skill shares its name with the `/debate` command, so `Skill(debate)` loads the interactive command, which asks questions a subagent cannot answer. Run each turn yourself as the reference describes; do not route turns through `Skill: consult`, which in Claude Code can resolve to consult's interactive command.
+Read `${CLAUDE_PLUGIN_ROOT}/skills/debate/SKILL.md` and `${CLAUDE_PLUGIN_ROOT}/skills/debate/references/tools.md` and follow them. `${CLAUDE_PLUGIN_ROOT}` is this plugin's install directory; if it appears unexpanded, Glob for `**/debate/*/skills/debate/SKILL.md` in the harness's plugin directory. Do not load them with the Skill tool: the skill shares its name with the `/debate` command, so `Skill(debate)` loads the interactive command, which asks questions a subagent cannot answer. Use the consult runner path the caller passes, or find it with Glob for `**/consult/*/acp/run.js` in the plugin directory. Run each turn yourself as the reference describes; do not route turns through `Skill: consult`, which in Claude Code can resolve to consult's interactive command.
 
 ## Constraints
 

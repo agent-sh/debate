@@ -73,6 +73,13 @@ for (const id of ['claude-haiku-4-5', 'claude-sonnet-5', 'claude-opus-5-5', 'cla
 lacks(agent, /^\s+- Skill$/m, 'debate-orchestrator must not list the Skill tool.');
 lacks(command, /allowed-tools:.*\bSkill\b/, 'commands/debate.md must not rely on the Skill tool.');
 
+// Skill files are read by an anchored path, never relative to the user's repo.
+for (const [name, text] of [['commands/debate.md', command], ['debate-orchestrator.md', agent]]) {
+  has(text, /\$\{CLAUDE_PLUGIN_ROOT\}\/skills\/debate\/SKILL\.md/, `${name} must anchor the skill path on CLAUDE_PLUGIN_ROOT.`);
+}
+has(command, /ls \$\{CLAUDE_PLUGIN_ROOT\}\/\.\.\/\.\.\/consult\/\*\/acp\/run\.js/, 'commands/debate.md must resolve the consult runner where the variable expands.');
+has(tools, /--timeout=240000 \[--model="MODEL"\] \[--effort="EFFORT"\]/, 'references/tools.md must pass --effort to the runner.');
+
 // The judge inherits the session model.
 lacks(agent, /^model:/m, 'debate-orchestrator must inherit the session model.');
 
