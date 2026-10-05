@@ -40,7 +40,7 @@ has(skill, /"both approaches have merit" is not a verdict/, 'SKILL.md must requi
 has(skill, /last-debate\.json/, 'SKILL.md must define the state file.');
 
 // Command contract.
-has(command, /MUST treat timeout, non-zero status, missing output, and parse failure as explicit tool failures/, 'commands/debate.md must keep the explicit failure rule.');
+has(command, /Treat timeout, non-zero status, missing output, and parse failure as explicit tool failures/, 'commands/debate.md must keep the explicit failure rule.');
 has(command, /gemini, codex, claude, opencode, copilot, kiro/, 'commands/debate.md must keep the tool allow-list.');
 has(command, /Bash\(node:\*\)/, 'commands/debate.md must allow node for the ACP runner.');
 has(command, /Bash\(kiro-cli:\*\)/, 'commands/debate.md must allow kiro-cli.');

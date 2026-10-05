@@ -37,7 +37,7 @@ Kiro is ACP-only, so it can only debate when the runner is available. Without th
 - `env -u CLAUDECODE` lets Claude run from inside a Claude Code session; `--allowedTools "Read,Glob,Grep"` keeps it read-only.
 - `{SKIP_GIT_FLAG}` is empty inside a git work tree (`git rev-parse --is-inside-work-tree`), and `--skip-git-repo-check` only when the debate runs from the user's own project directory outside git. Never take it from the environment.
 - Drop `--model` for OpenCode and Copilot to use the account default. Add `--thinking` for OpenCode at max effort.
-- Never add permission-bypassing flags: the tools read the user's repo and must not change it.
+- Add no permission-bypassing flags: the tools read the user's repo and must not change it.
 
 ## Models by effort
 
