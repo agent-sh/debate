@@ -14,9 +14,9 @@ Arguments: `$ARGUMENTS`, as flags, natural language, or both. Flags win.
 
 ## Constraints
 
-- Never expose API keys in commands or output, and never run a tool with permission-bypassing flags: both tools read the user's repo and must not change it.
+- Keep API keys out of commands and output, and run tools without permission-bypassing flags: both tools read the user's repo and must not change it.
 - Validate tool names against the allow-list: gemini, codex, claude, opencode, copilot, kiro. Proposer and challenger are different tools; rounds are 1 to 5.
-- MUST treat timeout, non-zero status, missing output, and parse failure as explicit tool failures, with a hard 240-second timeout per call. A hung tool must not stall the debate.
+- Treat timeout, non-zero status, missing output, and parse failure as explicit tool failures, with a hard 240-second timeout per call, so a hung tool cannot stall the debate.
 - Redact tool output before showing it (the skill's reference has the patterns).
 
 ## Parse
