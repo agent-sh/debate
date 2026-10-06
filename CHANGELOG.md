@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-06
+
 ### Changed
 - AGENTS.md: dropped the generic model-selection table and the GPU validation text (this is a Markdown and Node plugin), stated the conventions once with their reasons, added an Overview and the agnix command CI runs.
 - `/debate` command: the failure and safety rules read as plain rules instead of `MUST`/`Never`. The contract test pins the same rule without the capitals.

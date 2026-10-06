@@ -1,7 +1,7 @@
 ---
 name: debate
 description: "Use when the user wants two AI tools to argue a question: 'debate', 'argue about', 'stress test idea', 'devil advocate', 'codex vs gemini'. Runs proposer and challenger rounds between two CLIs and delivers a verdict."
-version: 5.2.0
+version: 5.3.0
 argument-hint: "[topic] [--proposer=tool] [--challenger=tool] [--rounds=N] [--effort=level]"
 ---
 
