@@ -6,7 +6,7 @@
 
 ### Changed
 - AGENTS.md: dropped the generic model-selection table and the GPU validation text (this is a Markdown and Node plugin), stated the conventions once with their reasons, added an Overview and the agnix command CI runs.
-- `/debate` command: the failure and safety rules read as plain rules instead of `MUST`/`Never`. The contract test pins the same rule without the capitals.
+- `/debate` command and `skills/debate/references/tools.md`: the failure and safety rules read as plain rules instead of `MUST`/`Never` (for example, "Never add permission-bypassing flags" is now "Add no permission-bypassing flags"). The contract test pins the same rule without the capitals.
 
 ## [1.1.0] - 2026-09-24
 
